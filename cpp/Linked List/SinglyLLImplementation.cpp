@@ -10,6 +10,11 @@ class node{
             this->val = data;
             this->next = NULL;
         }
+        ~node(){
+            cout<<"\ndestructure call for node "<<val<<endl;
+            this->next=NULL;
+            delete next;
+        }
 };
 
 class LinkedList{
@@ -65,18 +70,33 @@ class LinkedList{
             delete temp;
             temp->next=NULL;
             temp=NULL;
+            size--;
         }
 
-        void deleteFromTail(){
-            node* temp = head;
+        void deleteMiddle(int pos){
+            if(pos==1){ deleteFromHead(); return; }
+            if(pos>size) return;
+            int cnt = 1;
+            node* curr = head;
+            node* prev = NULL;
+            while(cnt<pos){
+                cnt++;
+                prev=curr;
+                curr=curr->next;
+            }
+
+            prev->next=curr->next;
+            curr->next=NULL;
+            delete curr;
         }
 
         void printLL(){
             node* temp = head;
-            while(temp!=NULL){
+            while(temp!=NULL) {
                 cout<<temp->val<<"->";
                 temp=temp->next;
             }
+            cout<<endl;
         }
 };
 
@@ -86,6 +106,7 @@ int main(){
     LL.insertAtTail(34);
     LL.insertAtHead(23);
     LL.insertInMiddle(56,-1);
-    LL.deleteFromHead();
+    LL.printLL();
+    LL.deleteMiddle(4);
     LL.printLL();
 }
